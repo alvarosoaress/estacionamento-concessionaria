@@ -15,6 +15,8 @@ import './App.css';
 function App() {
   const API = import.meta.env.VITE_API;
 
+  const [isLoading, setIsLoading] = useState(true);
+
   // states para controlar qual coluna da tabela detalhes está sendo ordenada
   const [filtroArea, setFiltroArea] = useState(false);
   const [filtroOcupacao, setFiltroOcupacao] = useState(false);
@@ -67,6 +69,7 @@ function App() {
 
   useEffect(() => {
     const getAutomoveis = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API}/automoveis`);
 
@@ -76,12 +79,15 @@ function App() {
           object[auto.id] = auto;
         });
         setAutomoveis(object);
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     };
 
     const getAreas = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API}/areas`);
 
@@ -92,12 +98,15 @@ function App() {
         });
         setAreas(object);
         setNewAreas(object);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
     const getClientes = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API}/clientes`);
 
@@ -114,28 +123,36 @@ function App() {
         });
 
         setClientesOpcoes(opcoes);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
     const getConcessionarias = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API}/concessionarias`);
 
         setConcessionarias(res.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
     const getVendas = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API}/venda`);
 
         setVendas(res.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
@@ -265,27 +282,28 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {Object.values(automoveisArea).map((auto, index) =>
-                // mostrando paenas automoveis com qtd maior do que 0
-                auto.quantidade > 0 ? (
-                  <tr key={index}>
-                    <td>{auto.modelo}</td>
-                    <td>{formatarMoeda(auto.preco)}</td>
-                    <td>{auto.quantidade}</td>
-                    <td>
-                      <button
-                        onClick={() => {
-                          setVenda(true), setIdAutoVenda(auto.id);
-                        }}
-                      >
-                        Vender
-                      </button>
-                    </td>
-                  </tr>
-                ) : (
-                  ''
-                ),
-              )}
+              {automoveisArea &&
+                Object.values(automoveisArea).map((auto, index) =>
+                  // mostrando paenas automoveis com qtd maior do que 0
+                  auto.quantidade > 0 ? (
+                    <tr key={index}>
+                      <td>{auto.modelo}</td>
+                      <td>{formatarMoeda(auto.preco)}</td>
+                      <td>{auto.quantidade}</td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            setVenda(true), setIdAutoVenda(auto.id);
+                          }}
+                        >
+                          Vender
+                        </button>
+                      </td>
+                    </tr>
+                  ) : (
+                    ''
+                  ),
+                )}
             </tbody>
           </table>
         </div>
@@ -337,6 +355,10 @@ function App() {
     );
   };
 
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
   return (
     <>
       {/* Popup superior direito  */}
@@ -373,23 +395,24 @@ function App() {
         <div className="gridContainer">
           {
             // Gerando as 10 áreas
-            [...Array(10)].map((_, index) => (
-              <div
-                className="area"
-                key={index + 1}
-                style={{
-                  gridArea: `area${index + 1}`,
-                  backgroundColor:
-                    areas[index + 1]?.ocupacao > 0 ? '#0000FF' : '#FFF',
-                  color: areas[index + 1]?.ocupacao > 0 ? '#FFF' : '#0000FF',
-                }}
-                onClick={() => {
-                  setIdArea(index + 1), setModal(true);
-                }}
-              >
-                {index + 1}
-              </div>
-            ))
+            areas &&
+              [...Array(10)].map((_, index) => (
+                <div
+                  className="area"
+                  key={index + 1}
+                  style={{
+                    gridArea: `area${index + 1}`,
+                    backgroundColor:
+                      areas[index + 1]?.ocupacao > 0 ? '#0000FF' : '#FFF',
+                    color: areas[index + 1]?.ocupacao > 0 ? '#FFF' : '#0000FF',
+                  }}
+                  onClick={() => {
+                    setIdArea(index + 1), setModal(true);
+                  }}
+                >
+                  {index + 1}
+                </div>
+              ))
           }
         </div>
         <div className="tabelasContainer">
@@ -478,24 +501,28 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {vendas.map((venda, index) => (
-                    <tr key={index}>
-                      <td>{automoveis[venda.auto].modelo}</td>
-                      <td>
-                        {
-                          clientes.find(
-                            (cliente) => cliente.id == venda.cliente,
-                          ).nome
-                        }
-                      </td>
-                      <td>
-                        {concessionarias
-                          .find((conc) => conc.id == venda.conc)
-                          .nome.replace('concessionária', '')}
-                      </td>
-                      <td>{new Date(venda.data).toLocaleString('pt-br')}</td>
-                    </tr>
-                  ))}
+                  {vendas &&
+                    automoveis &&
+                    clientes &&
+                    concessionarias &&
+                    vendas.map((venda, index) => (
+                      <tr key={index}>
+                        <td>{automoveis && automoveis[venda.auto]?.modelo}</td>
+                        <td>
+                          {
+                            clientes.find(
+                              (cliente) => cliente.id == venda.cliente,
+                            )?.nome
+                          }
+                        </td>
+                        <td>
+                          {concessionarias
+                            .find((conc) => conc.id == venda.conc)
+                            ?.nome.replace('concessionária', '')}
+                        </td>
+                        <td>{new Date(venda.data).toLocaleString('pt-br')}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
