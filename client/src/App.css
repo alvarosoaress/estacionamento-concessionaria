@@ -200,9 +200,18 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     .gridContainer{
         width: 100dvw;
         height: 70dvh;
+    }
+
+    .modal{
+        width: 90%;
+    }
+
+    th, tr{
+        font-size: 12px;
+        padding: 2px;
     }
   }
