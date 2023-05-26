@@ -1,24 +1,26 @@
 import express from 'express'
-import mysql from 'mysql2' // usando lib mysql2 para maior compatibilidade
+import mysql from 'mysql2' // usando lib mysql2 para maior compatibilidade no windows (usar mysql no linux)
 import dotenv from 'dotenv'
 import cors from 'cors'
+import path from 'path'
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-dotenv.config(); // configurando para uso do arquivo .ENV
+dotenv.config({path: path.resolve('./.ENV')}); // configurando para uso do arquivo .ENV
+
+const DB_HOST = process.env.DB_HOST;
+const DB_USER = process.env.DB_USER
+const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_DATABASE = process.env.DB_DATABASE
 
 const db = mysql.createConnection({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_DATABASE
+    host:DB_HOST,
+    user:DB_USER,
+    password:DB_PASSWORD,
+    database:DB_DATABASE
 })
-
-// COLOCAR PORT EM ARQUIVO ENV
-// COLOCAR HTTP LINK ENV
-  
 
 // Selecionar informações de todos automóveis
 app.get('/automoveis', (req, res)=>{
