@@ -17,6 +17,8 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isLoadingModal, setIsLoadingModal] = useState(true);
+
   // states para controlar qual coluna da tabela detalhes está sendo ordenada
   const [filtroArea, setFiltroArea] = useState(false);
   const [filtroOcupacao, setFiltroOcupacao] = useState(false);
@@ -165,12 +167,15 @@ function App() {
 
   useEffect(() => {
     const getAreaById = async () => {
+      setIsLoadingModal(true);
       try {
         const res = await axios.get(`${API}/areas/${idArea}`);
 
         setAutomoveisArea(res.data);
+        setIsLoadingModal(false);
       } catch (error) {
         console.log(error);
+        setIsLoadingModal(false);
       }
     };
 
@@ -184,6 +189,7 @@ function App() {
 
   useEffect(() => {
     const getConcessionariasByAuto = async () => {
+      setIsLoadingModal(true);
       try {
         const res = await axios.get(`${API}/concessionarias/${idAutoVenda}`);
         // criando opcoes para o select usado na venda
@@ -197,8 +203,10 @@ function App() {
         });
 
         setConcOpcoes(opcoes);
+        setIsLoadingModal(false);
       } catch (error) {
         console.log(error);
+        setIsLoadingModal(false);
       }
     };
 
@@ -261,6 +269,10 @@ function App() {
   };
 
   const OpcaoArea = ({ display }) => {
+    if (isLoadingModal) {
+      return <div>Carregando...</div>;
+    }
+
     if (automoveisArea.length <= 0) {
       return (
         <>
