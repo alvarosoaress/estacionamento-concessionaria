@@ -478,7 +478,6 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {console.log(clientes)}
                   {vendas.map((venda, index) => (
                     <tr key={index}>
                       <td>{automoveis[venda.auto].modelo}</td>
