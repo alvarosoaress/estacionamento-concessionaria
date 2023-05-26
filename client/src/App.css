@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --corFundo: #FFF;
+    --corPrimaria: #7814FF;
+    --corSecundaria: #0000FF;
+    --corTexto : #000;
+    --corTextoSecundario : #707070;
+
+    --toastify-icon-color-success: var(--corPrimaria);
+    --toastify-color-success: var(--corPrimaria);
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color: var(--corPrimaria);
+  
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column ;
+    background-color: var(--corFundo);
+  }
+/* 
+  .gridContainer{
+    display: flex;
+    width: 60vw;
+    gap: 5px;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+  } */
+
+  /* .gridContainer{
+    display: grid;
+    width: 70vw;
+    height: 50vh;
+    grid-template-columns: 2fr 1fr 1fr 0.25fr;
+    grid-template-areas:
+    "area1 area5 area10 area4"
+	"area1 area5 area10 area4"
+    "area1 area3 area10 area6"
+    "area2 area8 area9 area7";
+    overflow-x: hidden;
+  } */
+  .gridContainer{
+    display: grid;
+    width: 70vw;
+    height: 70vh;
+    margin-block: 5%;
+
+    grid-template-columns: 2fr 1fr 1fr 0.25fr;
+    grid-template-areas:
+    "area1 area5 area10 area4"
+	"area1 area5 area10 area6"
+    "area1 area3 area10 area7"
+    "area2 area8 area9 ."
+    "area2 . . .";
+  }
+
+  .area{
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+  }
+
+  .area:hover{
+    z-index: 1;
+    scale: 1.2;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 100);
+  }
+
+  .tabelaDetalhes{
+    display: grid;
+    width: 100%;
+  }
+
+  .tabelaDetalhes th{
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    place-self: center;
+    font-size: 20px;
+  }
+  
+  td, th {
+    border-bottom: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .modalContainer{
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    overflow-x: hidden;
+    z-index: 2;
+    background-color:rgba(0, 0, 0, 0.2) ;
+  }
+
+  .modal{
+    width: 50%;
+    padding: 2%;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  .modal table{
+    width: 100%;
+  }
+
+  .modal td, .modal th{
+    text-align: start;
+  }
+  
+  .modal h1{
+    margin-bottom: 5%;
+  }
+
+  button{
+    width: 100px;
+    height: 35px;
+    background-color: var(--corPrimaria);
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+  }
+
+  button:hover{
+    font-weight: bold;
+    scale: 1.2;
+  }
+
+  .areaVazia{
+    text-align: center;
+    color: var(--corTextoSecundario);
+  }
+
+  label{
+    font-size: 18px;
+  }
+
+  .labelContaier{
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    align-items: center;
+    row-gap: 15%;
+    column-gap: 5%;
+  }
+
+  .selectComponent{
+    width: 100%;
+  }
+
+  .botoesVenda{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+  }
+
+  .tabelasContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tabelaBox{
+    width: 100%;
+    text-align: center;
+  }
