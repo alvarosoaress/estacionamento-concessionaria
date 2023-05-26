@@ -1,6 +1,7 @@
 {
     "headers": [
       {
+        "source": "http://168.138.247.202:8800/(.*)",
         "headers": [
           { "key": "Access-Control-Allow-Credentials", "value": "true" },
           { "key": "Access-Control-Allow-Origin", "value": "*" },
